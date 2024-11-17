@@ -472,7 +472,7 @@ async def optimized_speed_points_in_between_lines(tree1, tree2, path1, path2, po
 
 
 async def get_speed_paths(i, parallel_1, parallel_2,session):
-    key = st.secrets["lzRkx8wMFAWGkAQ4fPtKK11UuAc4mMf8"]
+    key = st.secrets["MY_TOM_TOM_API_KEY"]
     # key = "lzRkx8wMFAWGkAQ4fPtKK11UuAc4mMf8"
     baseURL = "api.tomtom.com"
     versionNumber = 4
@@ -530,7 +530,7 @@ async def speed_labelling(route, parallel_1, parallel_2):
             result.pop(i)
     #Now need to transform array into zip
     #now result is [[correct, speed],[correct, speed]]
-
+    print(result)
     correct_val, speed_val = zip(*result)
     result = zip(list(correct_val), list(speed_val))
     return result
