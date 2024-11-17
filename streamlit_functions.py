@@ -536,18 +536,6 @@ async def speed_labelling(route, parallel_1, parallel_2):
     return result
 
 
-def trysuggestions(type):
-    temp = getsuggestions(type)
-    if type =="s":
-        st.session_state.start_dict = temp
-        #st.session_state.start_coord = [f"{coord[0]}, {coord[1]}" for coord in list(temp.values())]
-        st.session_state.start_suggestions = list(temp.keys())
-        
-    elif type =="d":
-        st.session_state.dest_dict = temp
-        #st.session_state.dest_coord = [f"{coord[0]}, {coord[1]}" for coord in list(temp.values())]
-        st.session_state.dest_suggestions = list(temp.keys())
-
 def flatten(lst):
     """Flattens a list of lists into a single list."""
     return [item for sublist in lst for item in sublist if sublist]
