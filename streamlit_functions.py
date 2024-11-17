@@ -102,7 +102,7 @@ def getsuggestions_v2(indx):
     location = st.session_state["entered_loc_{}".format(indx)]
     if location == "":
         return {}
-    url = "https://api.geoapify.com/v1/geocode/autocomplete?text={}&lang=en&filter=countrycode:auto&format=json&apiKey={}".format(location,key)
+    url = "https://api.geoapify.com/v1/geocode/autocomplete?text={}&lang=en&filter=countrycode:sg&format=json&apiKey={}".format(location,key)
     response = requests.get(url)
     json_object = json.loads(response.text)
     value = {}
