@@ -117,9 +117,15 @@ Azure Functions/
 Machine Learning/
 │
 ├── ML Traffic Training.py      # Main Azure function
-├── best.pt                     # Best Training File
+├── training_weights    
+    └── best.pt         # Machine Learning Fined Tuned Weights
 ```
 
+## Dataset Used
+- Yolo Image Training
+  - https://universe.roboflow.com/fyp-car-dataset/car-models-on-expressways/dataset/12
+- Road Divider
+  - https://universe.roboflow.com/tryingtosegment/road-divider/dataset/2
 
 ## 📞 Contact
 
