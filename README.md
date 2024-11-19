@@ -95,6 +95,7 @@ Traffic_Monitoring_Streamlit/
 │
 ├── streamlittesting.py      # Main Streamlit application
 ├── requirements.txt         # Project dependencies
+├── AllCameraCoords.json     # Coordinates of each Camera (Lat,Long)
 ├── .streamlit/
 │   └── secrets.toml         # API keys and credentials
 ```
