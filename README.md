@@ -11,9 +11,11 @@ This Traffic Monitoring application is a powerful Python-based tool built with S
   - Live updates of traffic data
   - Instant insights into current traffic conditions
 
-- **📈 Advanced Data Visualization**
-  - Multiple chart types and graphical representations
-  - Comprehensive traffic pattern analysis
+- **📈 Speed Monitoring**
+  - Displays Speed across Route chosen
+    
+- **📈 Vehicle Detection **
+  - 91% Yolov8 Accuracy trained on Singapore LTA Datamall Images
 
 - **🛠️ Intuitive User Interface**
   - Seamless interaction with Streamlit
@@ -104,6 +106,8 @@ Azure Functions/
 ├── requirements.txt     # Project dependencies
 ├── host.json            # Azure Function Parameters
 ├── ID_location.json     # CameraID to Location Name in place of Google API
+├── training_weights    
+│   └── best.pt         # Machine Learning Fined Tuned Weights
 └── sample2.json         # Annotated Constraint Polygons File
 ```
 
