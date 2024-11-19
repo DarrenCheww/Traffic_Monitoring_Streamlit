@@ -191,11 +191,13 @@ if len(st.session_state.various_routes):
                 st.session_state['selected_route'] = i
 
 
-    via_route = st.session_state.various_routes_properties[st.session_state['selected_route']]["via"]
-    journeys = st.session_state["current_location_shown"]
-    st.markdown(f'<p style="color: #4CAF50; font-size:12px;">🌟 Displaying Journey From: <b>{"  to  ".join(journeys)}</b> via {via_route} </p>', unsafe_allow_html=True)
+    
+    
         
     if 'selected_route' in st.session_state:
+        via_route = st.session_state.various_routes_properties[st.session_state['selected_route']]["via"]
+        journeys = st.session_state["current_location_shown"]
+        st.markdown(f'<p style="color: #4CAF50; font-size:12px;">🌟 Displaying Journey From: <b>{"  to  ".join(journeys)}</b> via {via_route} </p>', unsafe_allow_html=True)
 
         # Async 1:# Plot to pathing to map
         start_time = time.time()
