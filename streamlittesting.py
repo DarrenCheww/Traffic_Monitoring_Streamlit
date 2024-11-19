@@ -28,7 +28,7 @@ def get_clustering_density(cameraID):
     pass
     
 client = connect_to_db()
-"st.session_state object", st.session_state
+# "st.session_state object", st.session_state
 if 'locations_arr' not in st.session_state:
     #Declaring default variables
     st.session_state.locations_arr = []
@@ -54,7 +54,6 @@ for i in range(st.session_state.num_of_dest +1):
         st.session_state["option_selected_{}".format(i)] = ""
         st.session_state["option_selected_coordinate_{}".format(i)]=""
 
-        # st.session_state.locations_arr.append({})
 
 for i in range(st.session_state.num_of_dest+1):
     # print("loc_arr:",st.session_state.locations_arr )
@@ -68,6 +67,9 @@ for i in range(st.session_state.num_of_dest+1):
         option = st.selectbox("ST suggestion",list(st.session_state["locations_arr"][i].keys()), label_visibility= "collapsed", key = "option_selected_{}".format(i) )
         if st.session_state["option_selected_{}".format(i)] == "" and list(st.session_state["locations_arr"][i].keys()):
             st.session_state["option_selected_{}".format(i)] == list(st.session_state["locations_arr"][i].keys())[0]
+            
+               
+        
         
         if not list(st.session_state["locations_arr"][i].keys()):
             st.warning("Please enter a valid destination")
@@ -76,8 +78,15 @@ for i in range(st.session_state.num_of_dest+1):
             
         else:
             st.session_state.submit_avail = True
+    
 
     if st.session_state["option_selected_{}".format(i)] not in ["", None]:
+        current_selected = st.session_state["option_selected_{}".format(i)]
+        # st.write(f"Current Selected: {current_selected}") 
+        # st.markdown(f'<h3 style="color: #4CAF50;">🌟 Current Selected: <b>{current_selected}</b></h3>', unsafe_allow_html=True)
+        st.markdown(f'<p style="color: #4CAF50; font-size:12px;">🌟 Current Selected: <b>{current_selected}</b></p>', unsafe_allow_html=True)
+
+
         # st.session_state["option_selected_coordinate_{}".format(i)] = st.session_state["locations_arr"][i][st.session_state["option_selected_{}".format(i)]]
         if i<len(st.session_state.option_selected_coordinate_arr):
             st.session_state.option_selected_coordinate_arr[i] = st.session_state["locations_arr"][i][st.session_state["option_selected_{}".format(i)]]
@@ -85,6 +94,7 @@ for i in range(st.session_state.num_of_dest+1):
         else:
             st.session_state.option_selected_coordinate_arr.append(st.session_state["locations_arr"][i][st.session_state["option_selected_{}".format(i)]])
 
+    
 
 if st.session_state.submit_avail == True:
     if st.button('Submit'):
