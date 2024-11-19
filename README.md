@@ -4,7 +4,8 @@
 
 This Traffic Monitoring application is a powerful Python-based tool built with Streamlit, designed to provide real-time insights into traffic data in Singapore's Context. The application offers comprehensive visualization and analysis capabilities, making it easy to understand traffic patterns and trends.
 
-![Traffic Monitoring Dashboard](path_to_screenshot.png)
+##Website:
+https://trafficmonitoringapp-fypdemoscse.streamlit.app/
 
 ## 🌟 Features
 - **📊 Real-time Traffic Monitoring**
@@ -14,7 +15,7 @@ This Traffic Monitoring application is a powerful Python-based tool built with S
 - **📈 Speed Monitoring**
   - Displays Speed across Route chosen
     
-- **📈 Vehicle Detection **
+- **Vehicle Detection**
   - 91% Yolov8 Accuracy trained on Singapore LTA Datamall Images
 
 - **🛠️ Intuitive User Interface**
@@ -22,8 +23,8 @@ This Traffic Monitoring application is a powerful Python-based tool built with S
   - User-friendly design for easy navigation
 
 - **📅 Historical Data Analysis**
-  - In-depth trend visualization
-  - Comparative traffic data analysis
+  - Counting of Vehicles over 30 minutes window
+  - Clustering Density of Roads over 30 minutes window using Iterative DBscan
 
 ## 🚀 Installation
 
@@ -95,6 +96,7 @@ Traffic_Monitoring_Streamlit/
 │
 ├── streamlittesting.py      # Main Streamlit application
 ├── requirements.txt         # Project dependencies
+├── AllCameraCoords.json     # Coordinates of each Camera (Lat,Long)
 ├── .streamlit/
 │   └── secrets.toml         # API keys and credentials
 ```
