@@ -23,12 +23,14 @@ import time
 
 load_dotenv()
 
+
+
 @st.cache_data(ttl=900)
 def get_clustering_density(cameraID):
     pass
     
 client = connect_to_db()
-# "st.session_state object", st.session_state
+"st.session_state object", st.session_state
 if 'locations_arr' not in st.session_state:
     #Declaring default variables
     st.session_state.locations_arr = []
@@ -39,12 +41,26 @@ if 'locations_arr' not in st.session_state:
     st.session_state.prev_option_selected_coordinate_arr = []
     st.session_state.route_cluster_density_fig = go.Figure()
     st.session_state.all_selected = False
+    st.session_state.current_location_shown = []
 if "button_val" not in st.session_state:   
     st.session_state.button_val = False
 if "submit_avail" not in st.session_state:
     st.session_state.submit_avail = False
+if "current_location_shown" not in st.session_state:
+    st.session_state.current_location_shown = []
+# st.title("Welcome LTA Traffic Monitoring")
+st.markdown('''
+    <div style="background-color: #333333; padding: 15px; border-radius: 10px;">
+        <h1 style="color: #D3D3D3; font-size: 36px; text-align: center;">
+            🚦 Welcome to <b>LTA Traffic Monitoring</b> 🏙️
+        </h1>
+    </div>
+''', unsafe_allow_html=True)
 
-st.title("Welcome LTA Traffic Monitoring")
+
+
+
+
 st.session_state.num_of_dest = st.slider('Number of Destinations (Max:3)', 1,2)
 
 
@@ -68,8 +84,6 @@ for i in range(st.session_state.num_of_dest+1):
         if st.session_state["option_selected_{}".format(i)] == "" and list(st.session_state["locations_arr"][i].keys()):
             st.session_state["option_selected_{}".format(i)] == list(st.session_state["locations_arr"][i].keys())[0]
             
-               
-        
         
         if not list(st.session_state["locations_arr"][i].keys()):
             st.warning("Please enter a valid destination")
@@ -81,10 +95,7 @@ for i in range(st.session_state.num_of_dest+1):
     
 
     if st.session_state["option_selected_{}".format(i)] not in ["", None]:
-        current_selected = st.session_state["option_selected_{}".format(i)]
-        # st.write(f"Current Selected: {current_selected}") 
-        # st.markdown(f'<h3 style="color: #4CAF50;">🌟 Current Selected: <b>{current_selected}</b></h3>', unsafe_allow_html=True)
-        st.markdown(f'<p style="color: #4CAF50; font-size:12px;">🌟 Current Selected: <b>{current_selected}</b></p>', unsafe_allow_html=True)
+        
 
 
         # st.session_state["option_selected_coordinate_{}".format(i)] = st.session_state["locations_arr"][i][st.session_state["option_selected_{}".format(i)]]
@@ -93,13 +104,14 @@ for i in range(st.session_state.num_of_dest+1):
 
         else:
             st.session_state.option_selected_coordinate_arr.append(st.session_state["locations_arr"][i][st.session_state["option_selected_{}".format(i)]])
-
+    current_selected = st.session_state["option_selected_{}".format(i)]
+    st.markdown(f'<p style="color: #4CAF50; font-size:12px;">🌟 Current Selected: <b>{current_selected}</b></p>', unsafe_allow_html=True)
     
 
 if st.session_state.submit_avail == True:
     if st.button('Submit'):
         st.session_state.button_val = True
-    print(st.session_state.option_selected_coordinate_arr)
+    # print(st.session_state.option_selected_coordinate_arr)
 
 st.session_state.map_object = folium.Map(location=(1.290270,103.851959), zoom_start =11)
 
@@ -109,6 +121,7 @@ if check_duplicate_coords() and st.session_state.button_val == True:
     st.session_state.button_val = False
 
 if st.session_state.button_val == True:
+    # st.markdown(f'<p style="color: #4CAF50; font-size:12px;">🌟 Displaying Journey From: <b>{}</b></p>', unsafe_allow_html=True)
     st.session_state.option_selected_coordinate_arr = st.session_state.option_selected_coordinate_arr[:st.session_state["num_of_dest"]+1]
     print("Running Routing LocationIQ")
     Routing_locationIQ_v2()
@@ -140,11 +153,25 @@ if st.session_state.button_val == True:
             st.session_state.various_routes_properties.append(route_property_dict)
 
     # speed_path_pair= []
+        num_options = st.session_state.num_of_dest +1
+    # via_route = st.session_state.various_routes_properties[st.session_state['selected_route']]["via"]
+    while len(st.session_state["current_location_shown"]) < num_options:
+        st.session_state["current_location_shown"].append(None)  # Initialize with None or a default value
+
+    # Now you can safely update the array dynamically
+    for i in range(num_options):
+        st.session_state["current_location_shown"][i] = st.session_state.get(f"option_selected_{i}", "Default Value")
     
 path_Layer = folium.FeatureGroup(name="Pathing Layer", show=True).add_to(st.session_state.map_object)
 traffic_camera_Layer = folium.FeatureGroup(name="Camera Layer", show=True).add_to(st.session_state.map_object)
 cluser_density_layer =  folium.FeatureGroup(name="Cluster Density Layer", show=True).add_to(st.session_state.map_object)
 speed_layer = folium.FeatureGroup(name="Check Speed Layer", show=True).add_to(st.session_state.map_object)
+
+# for i in range(st.session_state.num_of_dest +1):
+#     st.session_state["current_location_shown"][i] = st.session_state["option_selected_{}".format(i)]
+
+
+
 
 
 if len(st.session_state.various_routes):
@@ -163,7 +190,11 @@ if len(st.session_state.various_routes):
             if Route_selection_button:
                 st.session_state['selected_route'] = i
 
-    
+
+    via_route = st.session_state.various_routes_properties[st.session_state['selected_route']]["via"]
+    journeys = st.session_state["current_location_shown"]
+    st.markdown(f'<p style="color: #4CAF50; font-size:12px;">🌟 Displaying Journey From: <b>{"  to  ".join(journeys)}</b> via {via_route} </p>', unsafe_allow_html=True)
+        
     if 'selected_route' in st.session_state:
 
         # Async 1:# Plot to pathing to map
@@ -182,7 +213,7 @@ if len(st.session_state.various_routes):
                 )
             map_pathing.add_to(path_Layer)
             break
-        print("--- %s plot pathing seconds ---" % (time.time() - start_time))
+        # print("--- %s plot pathing seconds ---" % (time.time() - start_time))
 
         #Async plot Camera to  map
         start_time = time.time()
