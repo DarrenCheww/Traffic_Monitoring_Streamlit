@@ -4,7 +4,8 @@
 
 This Traffic Monitoring application is a powerful Python-based tool built with Streamlit, designed to provide real-time insights into traffic data in Singapore's Context. The application offers comprehensive visualization and analysis capabilities, making it easy to understand traffic patterns and trends.
 
-![Traffic Monitoring Dashboard](path_to_screenshot.png)
+##Website:
+https://trafficmonitoringapp-fypdemoscse.streamlit.app/
 
 ## 🌟 Features
 - **📊 Real-time Traffic Monitoring**
