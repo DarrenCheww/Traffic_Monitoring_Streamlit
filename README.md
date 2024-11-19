@@ -14,7 +14,7 @@ This Traffic Monitoring application is a powerful Python-based tool built with S
 - **📈 Speed Monitoring**
   - Displays Speed across Route chosen
     
-- **📈 Vehicle Detection **
+- **Vehicle Detection**
   - 91% Yolov8 Accuracy trained on Singapore LTA Datamall Images
 
 - **🛠️ Intuitive User Interface**
@@ -22,8 +22,8 @@ This Traffic Monitoring application is a powerful Python-based tool built with S
   - User-friendly design for easy navigation
 
 - **📅 Historical Data Analysis**
-  - In-depth trend visualization
-  - Comparative traffic data analysis
+  - Counting of Vehicles over 30 minutes window
+  - Clustering Density of Roads over 30 minutes window using Iterative DBscan
 
 ## 🚀 Installation
 
