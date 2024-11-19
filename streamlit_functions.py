@@ -128,7 +128,7 @@ def Routing_locationIQ_v2():
     # key = os.getenv("MY_LOCATION_IQ_KEY")
     # print(st.session_state.option_selected_coordinate_arr)
     coordinates = ";".join([f"{lat},{lon}" for lat, lon in st.session_state.option_selected_coordinate_arr])
-    # print(coordinates)
+    print(coordinates)
     url = "https://us1.locationiq.com/v1/directions/driving/{}?key={}&steps=true&alternatives=3&geometries=polyline&overview=full".format(coordinates, key)
     print(url)
     #   url = "https://us1.locationiq.com/v1/reverse?key={}&lat={}&lon={}&format=json".format(key,lat,long)
@@ -150,14 +150,10 @@ def Routing_locationIQ_v2():
 
 def Routing_locationIQ(first_coords, second_coords):
     temp_arr = []
-    #https://us1.locationiq.com/v1/reverse?key=pk.22aac5a23e1adbeebe8e84fe015ae488&lat=1.28036584335876&lon=103.830451146503&format=json
-
     #ACCEPTS LONGITUDE,  LATITUDE 
-    # key = "pk.22aac5a23e1adbeebe8e84fe015ae488"
+
     key = st.secrets["MY_LOCATION_IQ_KEY"]
     url = "https://us1.locationiq.com/v1/directions/driving/{};{}?key={}&steps=true&alternatives=3&geometries=polyline&overview=full".format(first_coords, second_coords,key, )
-
-    #   url = "https://us1.locationiq.com/v1/reverse?key={}&lat={}&lon={}&format=json".format(key,lat,long)
 
     headers = {"accept": "application/json"}
     response = requests.get(url, headers=headers)
@@ -180,7 +176,6 @@ def haversine_formula(path):
     
     parallel_path_1 =[]
     parallel_path_2 = []
-    #previous value =  0.075
     distance  = 0.035 #in km
     R = 6371
     for i in range(len(path)-1):
@@ -473,7 +468,6 @@ async def optimized_speed_points_in_between_lines(tree1, tree2, path1, path2, po
 
 async def get_speed_paths(i, parallel_1, parallel_2,session):
     key = st.secrets["MY_TOM_TOM_API_KEY"]
-    # key = "lzRkx8wMFAWGkAQ4fPtKK11UuAc4mMf8"
     baseURL = "api.tomtom.com"
     versionNumber = 4
     style = "reduced-sensitivity"  # Use this directly
@@ -516,7 +510,6 @@ async def get_speed_paths(i, parallel_1, parallel_2,session):
 
 
 async def speed_labelling(route, parallel_1, parallel_2):
-
     n = len(route)
     num_breaks = 5
     segment_size = math.ceil(n / num_breaks)
@@ -735,7 +728,10 @@ async def route_poly_plotting_df(camera_ID_arr):
     num_of_cols = df_bar.shape[1]
     num_of_rows = df_bar.shape[0]
     
-    off_val = (num_of_rows*0.8)/(num_of_cols*num_of_rows)
+    try:
+        off_val = (num_of_rows*0.8)/(num_of_cols*num_of_rows)
+    except:
+        off_val= 1
     
     # off_val = 
 
@@ -759,9 +755,6 @@ async def route_poly_plotting_df(camera_ID_arr):
         name=f'Bar {col}',
         marker_color=  plotly_colors[i],
     ))
-
-    #plot journey against predicted. 
-    #WTF
 
 
     current_info = mydb["Current Info"]
@@ -824,15 +817,7 @@ def connect_to_db():
     username = st.secrets["database"]["MY_MONGO_DB_USER_NAME"]
     cluster = st.secrets["database"]["MY_MONGO_CLUSTER"]
 
-    # password = "!Xmini123"
-
-    # Construct the URI with the encoded username and password
-    # uri = f"mongodb+srv://darrenchew:{password}@dcchewfyp.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=500000"
-
-
     uri = f"mongodb+srv://{username}:{password}@{cluster}.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=500000"
-
-    # uri ="mongodb+srv://CHEW0425@e.ntu.edu.sg:!Xmini123@dcchewfyp.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=500000"
     client = MongoClient(uri, serverSelectionTimeoutMS=30000,
                      socketTimeoutMS=30000,
                      maxIdleTimeMS=60000,
