@@ -125,8 +125,6 @@ def Routing_locationIQ_v2():
 
     #ACCEPTS LONGITUDE,  LATITUDE 
     key = st.secrets["MY_LOCATION_IQ_KEY"]
-    # key = os.getenv("MY_LOCATION_IQ_KEY")
-    # print(st.session_state.option_selected_coordinate_arr)
     coordinates = ";".join([f"{lat},{lon}" for lat, lon in st.session_state.option_selected_coordinate_arr])
     print(coordinates)
     url = "https://us1.locationiq.com/v1/directions/driving/{}?key={}&steps=true&alternatives=3&geometries=polyline&overview=full".format(coordinates, key)
@@ -137,8 +135,6 @@ def Routing_locationIQ_v2():
 
     response = requests.get(url, headers=headers)
     json_object = json.loads(response.text)
-    # with open("RoutingLocationIQreturnvalue.json", "w") as outfile:
-    #     json.dump(response.json(), outfile)
     for i in json_object["routes"]:
         geometries_duration_pair.append({
             "geometry":polyline.decode(i["geometry"]),

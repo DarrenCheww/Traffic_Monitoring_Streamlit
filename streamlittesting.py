@@ -30,7 +30,7 @@ def get_clustering_density(cameraID):
     pass
     
 client = connect_to_db()
-"st.session_state object", st.session_state
+# "st.session_state object", st.session_state
 if 'locations_arr' not in st.session_state:
     #Declaring default variables
     st.session_state.locations_arr = []
