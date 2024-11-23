@@ -23,7 +23,7 @@ import time
 
 load_dotenv()
 
-
+# "st.session_state object", st.session_state
 
 @st.cache_data(ttl=900)
 def get_clustering_density(cameraID):
@@ -89,24 +89,28 @@ for i in range(st.session_state.num_of_dest+1):
             st.warning("Please enter a valid destination")
             st.session_state["option_selected_{}".format(i)] == ""
             st.session_state.submit_avail = False
-            
+        
+        
+
         else:
             st.session_state.submit_avail = True
     
 
     if st.session_state["option_selected_{}".format(i)] not in ["", None]:
-        
-
-
         # st.session_state["option_selected_coordinate_{}".format(i)] = st.session_state["locations_arr"][i][st.session_state["option_selected_{}".format(i)]]
         if i<len(st.session_state.option_selected_coordinate_arr):
             st.session_state.option_selected_coordinate_arr[i] = st.session_state["locations_arr"][i][st.session_state["option_selected_{}".format(i)]]
 
         else:
             st.session_state.option_selected_coordinate_arr.append(st.session_state["locations_arr"][i][st.session_state["option_selected_{}".format(i)]])
+    else:    
+        st.session_state.submit_avail = False
+        
     current_selected = st.session_state["option_selected_{}".format(i)]
     st.markdown(f'<p style="color: #4CAF50; font-size:12px;">🌟 Current Selected: <b>{current_selected}</b></p>', unsafe_allow_html=True)
     
+
+
 
 if st.session_state.submit_avail == True:
     if st.button('Submit'):
@@ -119,6 +123,11 @@ if check_duplicate_coords() and st.session_state.button_val == True:
     print(check_duplicate_coords)
     st.warning("Error: 2 same locations. Please edit the locations again")
     st.session_state.button_val = False
+
+if st.session_state.button_val == False:
+    #FFD700
+    with st.container(border= True):
+        st.markdown(f'<p style="color: #FFD700; font-size:12px;">⚠️<b>Submit Button will only appear if no errors</b></p>', unsafe_allow_html=True)
 
 if st.session_state.button_val == True:
     # st.markdown(f'<p style="color: #4CAF50; font-size:12px;">🌟 Displaying Journey From: <b>{}</b></p>', unsafe_allow_html=True)
@@ -349,7 +358,7 @@ if len(st.session_state.various_routes):
         print("--- %s plot graph seconds ---" % (time.time() - start_time))
 folium.LayerControl().add_to(st.session_state.map_object)
 with st.container(border = True):
-    st_data = st_folium(st.session_state.map_object, key = "fig1",width =690, height= 550, returned_objects=[])
+    st_data = st_folium(st.session_state.map_object, key = "fig1",width =690, height= 350, returned_objects=[])
 
 st.write("")
 
