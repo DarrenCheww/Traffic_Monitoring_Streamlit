@@ -358,7 +358,7 @@ if len(st.session_state.various_routes):
         print("--- %s plot graph seconds ---" % (time.time() - start_time))
 folium.LayerControl().add_to(st.session_state.map_object)
 with st.container(border = True):
-    st_data = st_folium(st.session_state.map_object, key = "fig1",width =690, height= 350, returned_objects=[])
+    st_data = st_folium(st.session_state.map_object, key = "fig1",width =690, height= 550, returned_objects=[])
 
 st.write("")
 
