@@ -31,7 +31,7 @@ import aiohttp
 import time
 from rtree import index
 from scipy.spatial import cKDTree
-from shapely.geometry import LineString, Point
+from shapely.geometry import LineString, Point,Polygon
 load_dotenv()
 
 camera_icon_url =  "https://cdn-icons-png.flaticon.com/128/685/685655.png"
@@ -121,8 +121,6 @@ def trysuggestions_v2(indx):
 def Routing_locationIQ_v2():
     geometries_duration_pair = []
     st.session_state.various_routes = []
-    #https://us1.locationiq.com/v1/reverse?key=pk.22aac5a23e1adbeebe8e84fe015ae488&lat=1.28036584335876&lon=103.830451146503&format=json
-
     #ACCEPTS LONGITUDE,  LATITUDE 
     key = st.secrets["MY_LOCATION_IQ_KEY"]
     coordinates = ";".join([f"{lat},{lon}" for lat, lon in st.session_state.option_selected_coordinate_arr])
@@ -683,6 +681,9 @@ async def route_poly_plotting_df(camera_ID_arr):
     for doc in documents:
         camera_id = doc["_id"]
         for cluster in doc["cluster_properties"]:
+            shape = Polygon(cluster["polygon_coords"])
+            if shape.area<0.015:
+                continue
             if timing in cluster:
                 # Calculate the average of the values for the given time
                 densities = cluster[timing]
@@ -760,6 +761,9 @@ async def route_poly_plotting_df(camera_ID_arr):
         camera_id = doc["_id"]
         if doc["cluster_density"]:
             for cluster in doc["cluster_density"]:
+                shape = Polygon(cluster["polygon"])
+                if shape.area< 0.015:
+                    continue
                 density = cluster["current_window_density"]
                 if camera_id not in current_results.keys():
                     current_results[camera_id] = [density]
